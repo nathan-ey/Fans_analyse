@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>管理员账户</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+
+
+	<!--  其他-->
+	<!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+	<link rel="stylesheet" href="../../layuiadmin/css/message.css" media="all" />
+
+
+
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+	<script src="../../layuiadmin/lib/extend/jquery.cookie.min.js"></script>
+	<script src="../../layuiadmin/lib/extend/message.js"></script>
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/ipconfig.js"></script>
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/requestParamData.js"></script>
+
+	<style>
+		.layui-form-select dl { max-height:200px; }
+	</style>
+
+</head>
+<body class="childrenBody">
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;background-color: #fbfbfb;">
+	<div class="layui-form-item">
+		<label class="layui-form-label">购买金额</label>
+		<div class="layui-input-inline">
+			<input type="text" name="money" id="money" class="layui-input" placeholder="必填" autocomplete="off">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">购买个数</label>
+		<div class="layui-input-inline">
+			<input type="text" name="num" id="num" class="layui-input" placeholder="必填" autocomplete="off">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">渠道ID</label>
+		<div class="layui-input-inline">
+		<select name="channelID" id="channelID">
+		</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">设备类型</label>
+		<div class="layui-input-inline">
+		<select name="type" id="type" lay-filter="college">
+		</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">设备ID</label>
+		<div class="layui-input-inline">
+			<select name="deviceID" id="deviceID">
+			</select>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">备注</label>
+		<div class="layui-input-inline">
+			<textarea name="remark" id="remark" lay-verify="remark" style="width: 270px; height: 150px;" autocomplete="off" class="layui-textarea" placeholder="必填"></textarea>
+		</div>
+	</div>
+	<button class="layui-btn" lay-submit="" lay-filter="addPurchasel" id="addPurchasel" style="margin-left: 120px;margin-top: 10px;">确认添加</button>
+</div>
+
+
+<!--<script src="../../layuiadmin/layui/layui.js"></script>-->
+<script src="../../layuiadmin/layui/layui.all.js"></script>
+<script>
+
+
+	var mybck= $.cookie('tokenMyb');
+	// alert(document.cookie);
+
+	// alert(mybck);
+	// console.log(mybck)
+
+	if(mybck == "" || mybck == null){
+
+		window.top.location.href= "../"+js_again_login;
+
+
+	}else {
+
+		layui.config({
+			base: '../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'channelInfo', 'table'], function(){
+			var $ = layui.$
+					,form = layui.form
+					,table = layui.table;
+
+			//获取渠道ID添加到下拉框中
+			$.ajax({
+				url: 'http://8.134.62.33/shopAdmin/get_channel?token='+mybck+'&status=1&page=1&limit=1000&mid=superAdmin',
+				dataType: 'json',
+				type: 'get',
+				success: function (dataArray) {
+					if(dataArray.code != 0){
+
+						// console.log(dataArray.msg)
+						// layer.msg(dataArray.msg);
+						return false;
+
+					}
+					// console.log(dataArray)
+					$.each(dataArray.data, function (index, item) {
+						$('#channelID').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+					});
+
+					layui.form.render("select");
+
+					//重新渲染 固定写法
+				}
+			})
+
+			//获取设备ID添加到下拉框中
+			$.ajax({
+				url: 'http://8.134.62.33/realizationAdmin/get_devices?token='+mybck+'&status=1&page=1&limit=1000',
+				dataType: 'json',
+				type: 'get',
+				success: function (dataArray) {
+
+					if(dataArray.code != 0){
+
+						// console.log(dataArray.msg)
+						// layer.msg(dataArray.msg);
+						return false;
+
+					}
+					// console.log(dataArray)
+					$.each(dataArray.data, function (index, item) {
+						$('#type').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+					});
+					//重新渲染 固定写法
+					layui.form.render("select");
+
+					var message=$("select[name=type]").val();
+
+					console.log("第一次动态生成到下拉框的时候显示默认的选项"+message);
+
+					//获取设备详情添加到下拉框中
+					$.ajax({
+						url: 'http://8.134.62.33/realizationAdmin/get_devices_detail?token='+mybck+'&status=1&page=1&limit=1000&type='+message,
+						dataType: 'json',
+						type: 'get',
+						success: function (dataArray) {
+
+							if(dataArray.code != 0){
+
+								console.log(dataArray.msg)
+								// layer.msg(dataArray.msg);
+								return false;
+
+							}
+							console.log(dataArray)
+							$.each(dataArray.data, function (index, item) {
+								$('#deviceID').append(new Option(item.remark, item.id));// 下拉菜单里添加元素
+							});
+
+							layui.form.render("select");
+
+							//重新渲染 固定写法
+						}
+					})
+
+				}
+			})
+
+
+
+
+			form.on('select(college)', function (data) {
+
+				//先执行清空设备ID详情的数据
+				$("#deviceID").empty();
+				form.render("select");
+
+
+				var message=$("select[name=type]").val();
+
+				console.log("手动选择的选项"+message);
+
+				//获取设备详情添加到下拉框中
+				$.ajax({
+					url: 'http://8.134.62.33/realizationAdmin/get_devices_detail?token='+mybck+'&status=1&page=1&limit=1000&type='+message,
+					dataType: 'json',
+					type: 'get',
+					success: function (dataArray) {
+
+						if(dataArray.code != 0){
+
+							console.log(dataArray.msg)
+							// layer.msg(dataArray.msg);
+							return false;
+
+						}
+						console.log(dataArray)
+						$.each(dataArray.data, function (index, item) {
+							$('#deviceID').append(new Option(item.remark, item.id));// 下拉菜单里添加元素
+						});
+
+						layui.form.render("select");
+
+						//重新渲染 固定写法
+					}
+				})
+
+
+			});
+
+
+
+			//新建按钮点击事件
+			$("#addPurchasel").click(function (){
+
+
+				var param={};
+				param['action'] = "add";
+				param['token']=$.cookie('tokenMyb');
+				param['channel_id']=$("select[name=channelID]").val();
+				param['money']=$("#money").val();
+				param['num']=$("#num").val();
+				param['remark']=$("#remark").val();
+				param['type']=$("select[name=type]").val();
+				param['device_id']=$("select[name=deviceID]").val();
+
+
+
+				$.ajax({
+				  url:"http://8.134.62.33/shopAdmin/get_shop_orders",
+				  type: "POST",
+				  data: param,
+				  success: function (resultData) {
+
+				    console.log(resultData);
+
+				    if(resultData.code == 200){
+
+
+
+						$.message({
+							message:resultData.msg ,
+							type: 'success',
+							showClose: true
+						});
+
+						setTimeout(function (){
+
+							layer.close("iframe");
+							parent.location.reload();
+
+						},1000)
+
+
+				    }else{
+
+				      $.message({
+				        message:resultData.msg ,
+				        type: 'error',
+				        showClose: true
+				      });
+
+
+				    }
+
+
+
+				  },
+
+
+				});
+
+			})
+
+
+		});
+
+	}
+
+</script>
+<script type="text/html" id="titleTpl">
+	<a style="color:gray;"  class="layui-table-link">{{d.LAY_TABLE_INDEX+1}}</a>
+</script>
+</body>
+</html>

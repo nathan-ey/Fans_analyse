@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>管理员账户</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+
+
+	<!--  其他-->
+	<!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+	<link rel="stylesheet" href="../../layuiadmin/css/message.css" media="all" />
+
+
+
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+	<script src="../../layuiadmin/lib/extend/jquery.cookie.min.js"></script>
+	<script src="../../layuiadmin/lib/extend/message.js"></script>
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/ipconfig.js"></script>
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/requestParamData.js"></script>
+
+
+</head>
+<body class="childrenBody" >
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+<!--	<div class="layui-form-item">-->
+<!--		<label class="layui-form-label">项目类型</label>-->
+<!--		<div class="layui-input-block">-->
+<!--			<select name="projectID" id="projectID">-->
+<!--			</select>-->
+<!--		</div>-->
+<!--	</div>-->
+	<div class="layui-form-item">
+		<label class="layui-form-label">项目类型</label>
+		<div class="layui-input-inline">
+			<input type="text" name="projectName" id="projectName" class="layui-input" autocomplete="off">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">任务次数</label>
+		<div class="layui-input-inline">
+			<input type="text" name="taskNums" id="taskNums" class="layui-input" autocomplete="off">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">日期</label>
+		<div class="layui-input-inline">
+			<select name="dateStr" id="dateStr">
+			</select>
+		</div>
+	</div>
+<!--	<div class="layui-form-item">-->
+<!--		<label class="layui-form-label">设备类型</label>-->
+<!--		<div class="layui-input-inline">-->
+<!--			<select name="type" id="type" lay-filter="college">-->
+<!--			</select>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--	<div class="layui-form-item">-->
+<!--		<label class="layui-form-label">设备ID</label>-->
+<!--		<div class="layui-input-inline">-->
+<!--			<select name="deviceID" id="deviceID">-->
+<!--			</select>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--	<div class="layui-form-item">-->
+<!--		<label class="layui-form-label">任务数</label>-->
+<!--		<div class="layui-input-inline">-->
+<!--			<input type="text" name="tasknums" id="tasknums" class="layui-input" placeholder="必填" autocomplete="off">-->
+<!--		</div>-->
+<!--	</div>-->
+	<div class="layui-form-item">
+		<label class="layui-form-label">备注</label>
+		<div class="layui-input-inline">
+			<input type="text" name="remark" id="remark" class="layui-input" placeholder="必填" autocomplete="off">
+		</div>
+	</div>
+	<button class="layui-btn" lay-submit="" lay-filter="comfirmBtn" id="comfirmBtn" style="margin-left: 120px;margin-top: 10px;">确认提交</button>
+</div>
+
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+
+<script src="../../layuiadmin/modules/G_VAR.js"></script>
+
+<script>
+
+	var jsonDataStr;
+
+	// var idStr = '';
+	//
+	// var nums = 0;
+
+
+	var mybck= $.cookie('tokenMyb');
+	if(mybck == "" || mybck == null){
+		// window.location.href="login.html";
+
+			window.top.location.href="../"+js_again_login;
+
+	}else {
+
+		layui.config({
+			base: '../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'DayNotTask', 'table'], function() {
+			var $ = layui.$
+					, form = layui.form
+					, table = layui.table;
+
+
+			// 初始化元素，如果有大量的元素操作可以也引入和初始化element模块
+			var layer = parent.layer === undefined ? layui.layer : top.layer;
+
+			// var $ = layui.$;
+
+			//子页面获取父页面的数据
+			var parent_json = eval('('+parent.jsonDataStr+')');
+			// var get_id = parent_json.id;
+
+
+			// var get_date = parent_json.date;
+
+
+			//获取当前年月日
+			var currDate = new Date().getFullYear() +  "-" +(new Date().getMonth() + 1).toString().padStart(2, "0") +  "-" + new Date().getDate().toString().padStart(2, "0");
+			var today = new Date();
+			var oneday = 1000 * 60 * 60 * 24;
+			var begindate=new Date(today - oneday);
+			var bgDate = begindate.getFullYear() +  "-" +(begindate.getMonth() + 1).toString().padStart(2, "0") +  "-" + begindate.getDate().toString().padStart(2, "0");
+
+			// console.log(currDate);
+
+			$('#dateStr').append(new Option(currDate, currDate));
+			$('#dateStr').append(new Option(bgDate, bgDate));
+
+
+			// $('#dateStr').find('option:contains(' + get_date + ')').prop('selected',true);
+
+			layui.form.render("select");
+
+
+
+			// console.log(GetQueryValue('title'))
+
+
+			$("#projectName").val(GetQueryValue('title'));
+
+
+			$("#taskNums").val(GetQueryValue('itemNum'));
+
+			//
+			// //获取项目ID添加到下拉框中
+			// $.ajax({
+			// 	url: 'http://8.134.62.33/receptionAdmin/get_project?token='+mybck+'&status=1&page=1&limit=1000',
+			// 	dataType: 'json',
+			// 	type: 'get',
+			// 	success: function (dataArray) {
+			//
+			// 		if(dataArray.code != 0){
+			//
+			// 			// console.log(dataArray.msg)
+			// 			// layer.msg(dataArray.msg);
+			// 			return false;
+			//
+			// 		}
+			// 		// console.log(dataArray)
+			// 		$.each(dataArray.data, function (index, item) {
+			// 			$('#projectID').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+			// 		});
+			// 		//重新渲染 固定写法
+			// 		layui.form.render("select");
+			//
+			// 	}
+			// })
+			//
+			//
+			// //获取设备ID添加到下拉框中
+			// $.ajax({
+			// 	url: 'http://8.134.62.33/realizationAdmin/get_devices?token='+mybck+'&status=1&page=1&limit=1000',
+			// 	dataType: 'json',
+			// 	type: 'get',
+			// 	success: function (dataArray) {
+			//
+			// 		if(dataArray.code != 0){
+			//
+			// 			// console.log(dataArray.msg)
+			// 			// layer.msg(dataArray.msg);
+			// 			return false;
+			//
+			// 		}
+			// 		// console.log(dataArray)
+			// 		$.each(dataArray.data, function (index, item) {
+			// 			$('#type').append(new Option(item.name, item.id));// 下拉菜单里添加元素
+			// 		});
+			// 		//重新渲染 固定写法
+			// 		layui.form.render("select");
+			//
+			// 		var message=$("select[name=type]").val();
+			//
+			// 		console.log("第一次动态生成到下拉框的时候显示默认的选项"+message);
+			//
+			// 		//获取设备详情添加到下拉框中
+			// 		$.ajax({
+			// 			url: 'http://8.134.62.33/realizationAdmin/get_devices_detail?token='+mybck+'&status=1&page=1&limit=1000&type='+message,
+			// 			dataType: 'json',
+			// 			type: 'get',
+			// 			success: function (dataArray) {
+			//
+			// 				if(dataArray.code != 0){
+			//
+			// 					console.log(dataArray.msg)
+			// 					// layer.msg(dataArray.msg);
+			// 					return false;
+			//
+			// 				}
+			// 				console.log(dataArray)
+			// 				$.each(dataArray.data, function (index, item) {
+			// 					$('#deviceID').append(new Option(item.remark, item.id));// 下拉菜单里添加元素
+			// 				});
+			//
+			// 				layui.form.render("select");
+			//
+			// 				//重新渲染 固定写法
+			// 			}
+			// 		})
+			//
+			// 	}
+			// })
+
+
+			// //子页面获取父页面的数据
+			// var parent_json = eval('(' + parent.jsonDataStr + ')');
+			//
+			//
+			// // console.log("parent_json:"+parent_json);
+			// // var get_id = parent_json.id;
+			//
+			//
+			// idStr ='';
+			// nums=0;
+			//
+			//
+			// // var devTitle = $("#memberUser option:selected").text();
+			//
+			// // var projectTitle = $("#projectID option:selected").text();
+			// // var localS = localStorage.getItem("successDataArray");
+			//
+			//
+			// for (var i=0;i<countArr(successDataArray);i++){
+			//
+			// 	idStr  += successDataArray[i].id+",";
+			//
+			// 	nums  += successDataArray[i].doing_nums;
+			//
+			//
+			// }
+			//
+			//
+			// idStr = idStr.substring(0,idStr.length-1)
+
+
+
+
+
+
+			//计算数组个数
+			function countArr(o) {
+				var t = typeof o;
+				if (t == 'string') {
+					return o.length;
+				} else if (t == 'object') {
+					var n = 0;
+					for (var i in o) {
+						n++;
+					}
+					return n;
+				}
+				return false;
+			}
+
+
+			//确认修改按钮点击事件
+			$("#comfirmBtn").click(function () {
+
+
+				// if ($("#tasknums").val() == "" || $("#tasknums").val() == "null" || $("#tasknums").val() == null) {
+				//
+				//
+				// 	$.message({
+				// 		message: "任务数不能为空!",
+				// 		type: 'error',
+				// 		showClose: true
+				// 	});
+				//
+				//
+				// 	return false
+				// }
+				//
+				//
+				// if ($("#remark").val() == "" || $("#remark").val() == "null" || $("#remark").val() == null) {
+				//
+				//
+				// 	$.message({
+				// 		message: "备注不能为空!",
+				// 		type: 'error',
+				// 		showClose: true
+				// 	});
+				//
+				//
+				// 	return false
+				// }
+
+
+
+
+				// 获取文本框输入的值
+				var valueRemark = $("#remark").val();
+				if (valueRemark) {
+					// alert("输入值为：" + value);
+					//
+				} else {
+					// alert("输入值为空！");
+
+					valueRemark = "未填写即默认值";
+
+				}
+
+
+				var param={};
+
+
+				param['token']= $.cookie('tokenMyb');
+				param['id']= GetQueryValue('idStr');
+				param['nums']= $("#taskNums").val();
+				param['remark']= valueRemark;
+				param['date'] = $("#dateStr option:selected").val();
+				param['devices_type_id']=  $("#memberUser option:selected").val();
+				param['project_id']=  GetQueryValue('proID');
+
+				$.ajax({
+					url:"http://8.134.62.33/realizationAdmin/submit_kele",
+					type: "POST",
+					data: param,
+					success: function (resultData) {
+
+						console.log(resultData);
+
+						if(resultData.code == 200){
+
+
+							$.message({
+								message:resultData.msg ,
+								type: 'success',
+								showClose: true
+							});
+
+							setTimeout(function (){
+
+								// layer.close("iframe");
+
+								layer.close("iframe");
+								parent.location.reload();
+
+							},100)
+
+
+
+						}else{
+
+							$.message({
+								message:resultData.msg ,
+								type: 'error',
+								showClose: true
+							});
+
+							setTimeout(function (){
+
+								// layer.close("iframe");
+
+								layer.close("iframe");
+								parent.location.reload();
+
+							},100)
+
+						}
+
+
+
+					},
+
+
+				});
+
+
+				// layer.prompt({title: '当前任务提交的---设备类型:'+projectTitle+"---任务总数:"+nums, formType:2,
+				//     yes: function(index, layero){
+				//         // 获取文本框输入的值
+				//         var value = layero.find(".layui-layer-input").val();
+				//         if (value) {
+				//             // alert("输入值为：" + value);
+				//             //
+				//         } else {
+				//             // alert("输入值为空！");
+				//
+				//             value = "未填写即默认值"
+				//
+				//         }
+				//
+				//
+				//         var param={};
+				//
+				//
+				//         param['token']= $.cookie('tokenMyb');
+				//         param['id']= idStr;
+				//         param['nums']= nums;
+				//         param['remark']= value;
+				//         param['date'] = get_date;
+				//         param['devices_type_id']=  $("#memberUser option:selected").val();
+				//         param['project_id']=  $("#projectID option:selected").val();
+				//
+				//         $.ajax({
+				//             url:"http://8.134.62.33/realizationAdmin/submit_kele",
+				//             type: "POST",
+				//             data: param,
+				//             success: function (resultData) {
+				//
+				//                 console.log(resultData);
+				//
+				//                 if(resultData.code == 200){
+				//
+				//
+				//                     $.message({
+				//                         message:resultData.msg ,
+				//                         type: 'success',
+				//                         showClose: true
+				//                     });
+				//
+				//                     setTimeout(function (){
+				//
+				//                         // layer.close("iframe");
+				//                         window.location.reload()
+				//
+				//                     },100)
+				//
+				//                     layer.close(index);
+				//
+				//                 }else{
+				//
+				//                     $.message({
+				//                         message:resultData.msg ,
+				//                         type: 'error',
+				//                         showClose: true
+				//                     });
+				//
+				//
+				//                     layer.close(index);
+				//
+				//                 }
+				//
+				//
+				//
+				//             },
+				//
+				//
+				//         });
+				//
+				//
+				//     }
+				// })
+
+			})
+
+
+			// form.on('select(college)', function (data) {
+			//
+			// 	//先执行清空设备ID详情的数据
+			// 	$("#deviceID").empty();
+			// 	form.render("select");
+			//
+			//
+			// 	var message = $("select[name=type]").val();
+			//
+			// 	console.log("手动选择的选项" + message);
+			//
+			// 	//获取设备详情添加到下拉框中
+			// 	$.ajax({
+			// 		url: 'http://8.134.62.33/realizationAdmin/get_devices_detail?token=' + mybck + '&status=1&page=1&limit=1000&type=' + message,
+			// 		dataType: 'json',
+			// 		type: 'get',
+			// 		success: function (dataArray) {
+			//
+			// 			if (dataArray.code != 0) {
+			//
+			// 				console.log(dataArray.msg)
+			// 				// layer.msg(dataArray.msg);
+			// 				return false;
+			//
+			// 			}
+			// 			console.log(dataArray)
+			// 			$.each(dataArray.data, function (index, item) {
+			// 				$('#deviceID').append(new Option(item.remark, item.id));// 下拉菜单里添加元素
+			// 			});
+			//
+			// 			layui.form.render("select");
+			//
+			// 			//重新渲染 固定写法
+			// 		}
+			// 	})
+			//
+			//
+			// });
+
+
+
+
+
+			/**
+			 * [通过参数名获取url中的参数值]
+			 * 示例URL:http://htmlJsTest/getrequest.html?uid=admin&rid=1&fid=2&name=小明
+			 * @param  {[string]} queryName [参数名]
+			 * @return {[string]}           [参数值]
+			 */
+			function GetQueryValue(queryName) {
+				var query = decodeURI(window.location.search.substring(1));
+				var vars = query.split("&");
+				for (var i = 0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+					if (pair[0] == queryName) { return pair[1]; }
+				}
+				return null;
+			}
+
+
+
+
+
+
+
+
+
+		})
+
+
+	}
+</script>
+<script type="text/html" id="titleTpl">
+	<a style="color:gray;"  class="layui-table-link">{{d.LAY_TABLE_INDEX+1}}</a>
+</script>
+</body>
+</html>

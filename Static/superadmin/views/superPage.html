@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>后台集</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/login.css" media="all">
+
+
+  <!--  其他-->
+<!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+  <link rel="stylesheet" href="../layuiadmin/css/message.css" media="all" />
+
+  <script type="text/javascript" src="../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+
+  <script src="../layuiadmin/lib/extend/message.js"></script>
+  <script type="text/javascript" src="../layuiadmin/lib/extend/ipconfig.js"></script>
+  <script type="text/javascript" src="../layuiadmin/lib/extend/requestParamData.js"></script>
+
+</head>
+<body>
+
+
+  <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+
+    <div class="layadmin-user-login-main" style="margin-top: 130px;">
+      <div class="layadmin-user-login-box layadmin-user-login-header">
+        <h2>后台集</h2>
+      </div>
+      <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit" id="zht">总后台管理</button>
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit" id="bx">变现管理员</button>
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit" id="gf">购粉管理员</button>
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit" id="jd">接待管理员</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../layuiadmin/layui/layui.js"></script>
+
+  <script>
+
+
+
+  layui.config({
+    base: '../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'user'], function(){
+    var $ = layui.$
+    ,setter = layui.setter
+    ,admin = layui.admin
+    ,form = layui.form
+    ,router = layui.router()
+    ,search = router.search;
+
+    form.render();
+
+
+    $("#zht").click(function (){
+      var tempwindow=window.open('_blank');
+      tempwindow.location = "http://8.134.62.33/superadmin/views/login.html";
+
+    })
+
+
+    $("#bx").click(function (){
+      var tempwindow=window.open('_blank');
+      tempwindow.location= "http://8.134.62.33/receptionAdmin/views/login.html";
+
+    })
+
+    $("#gf").click(function (){
+      var tempwindow=window.open('_blank');
+      tempwindow.location = "http://8.134.62.33/shopAdmin/views/login.html";
+
+    })
+
+    $("#jd").click(function (){
+      var tempwindow=window.open('_blank');
+      tempwindow.location= "http://8.134.62.33/receiveAdmin/views/login.html";
+
+    })
+
+
+
+
+
+
+  });
+
+
+
+  </script>
+</body>
+</html>

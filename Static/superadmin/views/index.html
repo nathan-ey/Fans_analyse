@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>总管理员后台</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+
+  <!--  其他-->
+<!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+  <link rel="stylesheet" href="../layuiadmin/css/message.css" media="all" />
+
+
+
+  <script type="text/javascript" src="../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+  <script src="../layuiadmin/lib/extend/jquery.cookie.min.js"></script>
+  <script src="../layuiadmin/lib/extend/message.js"></script>
+  <script type="text/javascript" src="../layuiadmin/lib/extend/ipconfig.js"></script>
+  <script type="text/javascript" src="../layuiadmin/lib/extend/requestParamData.js"></script>
+
+
+  <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+
+</head>
+<body class="layui-layout-body">
+
+  <div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+      <div class="layui-header">
+        <!-- 头部区域 -->
+        <ul class="layui-nav layui-layout-left">
+          <li class="layui-nav-item layadmin-flexible" lay-unselect>
+            <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+              <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+            </a>
+          </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+<!--          <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--            <a href="javascript:;" layadmin-event="theme">-->
+<!--              <i class="layui-icon layui-icon-theme"></i>-->
+<!--            </a>-->
+<!--          </li>-->
+          <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+              <cite id="usernameStr"></cite>
+            </a>
+            <dl class="layui-nav-child">
+              <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+            </dl>
+          </li>
+
+          <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" ><i class="layui-icon layui-icon-more-vertical"></i></a>
+          </li>
+          <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+            <a href="javascript:;" ><i class="layui-icon layui-icon-more-vertical"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 侧边菜单 -->
+      <div class="layui-side layui-side-menu">
+        <div class="layui-side-scroll">
+    <!--          点击logo图标的跳转地址事件-->
+          <div class="layui-logo">
+            <span>总管理员后台</span>
+          </div>
+
+          <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+
+<!--            <li data-name="home" class="layui-nav-item layui-nav-itemed">-->
+<!--              <a href="javascript:;" lay-tips="主页" lay-direction="2">-->
+<!--                <i class="layui-icon layui-icon-home"></i>-->
+<!--                <cite>主页</cite>-->
+<!--              </a>-->
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd data-name="console" class="layui-this">-->
+<!--                  <a lay-href="home/console.html">控制台</a>-->
+<!--                </dd>-->
+<!--&lt;!&ndash;                <dd data-name="console">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <a lay-href="home/homepage1.html">主页一</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </dd>&ndash;&gt;-->
+<!--&lt;!&ndash;                <dd data-name="console">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <a lay-href="home/homepage2.html">主页二</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </dd>&ndash;&gt;-->
+<!--              </dl>-->
+<!--            </li>-->
+
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="成员管理" lay-direction="2">
+                <i class="layui-icon layui-icon-user"></i>
+                <cite>成员管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="Members_manage/adminCountS.html">管理员</a>
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="set/system/website.html">买粉管理员</a></dd>-->
+<!--                    <dd><a lay-href="set/system/email.html">接粉管理员</a></dd>-->
+<!--                    <dd><a lay-href="404.html">变现管理员</a></dd>-->
+<!--                  </dl>-->
+                </dd>
+              </dl>
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd>-->
+<!--                  <a lay-href="General_manage/generalCountS.html">普通成员</a>-->
+<!--                </dd>-->
+<!--              </dl>-->
+            </li>
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="购买管理" lay-direction="3">
+                <i class="layui-icon layui-icon-cart-simple"></i>
+                <cite>购买管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="Purchase_manage/purchaseInfo.html">渠道详情</a>
+                </dd>
+              </dl>
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd>-->
+<!--                  <a lay-href="Purchase_manage/purchaseInfo.html">买粉详情</a>-->
+<!--                </dd>-->
+<!--              </dl>-->
+            </li>
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="接待管理" lay-direction="4">
+                <i class="layui-icon layui-icon-group"></i>
+                <cite>接待管理</cite>
+              </a>
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd data-name="content">-->
+<!--                  <a href="javascript:;">每日接待详情</a>-->
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="404.html">页面1</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面2</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面3</a></dd>-->
+<!--                  </dl>-->
+<!--                </dd>-->
+<!--              </dl>-->
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="Device_manage/deviceType.html">设备类型</a>
+                </dd>
+              </dl>
+            <dl class="layui-nav-child">
+                <dd>
+                    <a lay-href="Device_manage/deviceInfo.html">设备详情</a>
+                </dd>
+            </dl>
+            </li>
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="变现管理" lay-direction="5">
+                <i class="layui-icon layui-icon-tabs"></i>
+                <cite>变现管理</cite>
+              </a>
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd data-name="content">-->
+<!--                  <a href="javascript:;">每日买粉详情</a>-->
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="404.html">页面1</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面2</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面3</a></dd>-->
+<!--                  </dl>-->
+<!--                </dd>-->
+<!--              </dl>-->
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="Project_manage/ProjectInfo.html">项目列表</a>
+                </dd>
+              </dl>
+            </li>
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="转换率管理" lay-direction="6">
+                <i class="layui-icon layui-icon-chart"></i>
+                <cite>转换率管理</cite>
+              </a>
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd data-name="content">-->
+<!--                  <a href="javascript:;">每日买粉详情</a>-->
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="404.html">页面1</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面2</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面3</a></dd>-->
+<!--                  </dl>-->
+<!--                </dd>-->
+<!--              </dl>-->
+              <dl class="layui-nav-child">
+                <dd>
+                  <a lay-href="Conversion_manage/ConversionInfo.html">渠道转换率</a>
+                </dd>
+              </dl>
+            </li>
+            <li data-name="user" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="日志管理" lay-direction="6">
+                <i class="layui-icon layui-icon-date"></i>
+                <cite>日志管理</cite>
+              </a>
+              <dl class="layui-nav-child">
+                <dd data-name="content">
+                  <a lay-href="javascript:;">操作日志</a>
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="404.html">页面1</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面2</a></dd>-->
+<!--                    <dd><a lay-href="404.html">页面3</a></dd>-->
+<!--                  </dl>-->
+                </dd>
+              </dl>
+<!--              <dl class="layui-nav-child">-->
+<!--                <dd>-->
+<!--                  <a lay-href="404.html">渠道转换率</a>-->
+<!--                </dd>-->
+<!--              </dl>-->
+            </li>
+
+<!--            <li data-name="set" class="layui-nav-item">-->
+<!--              <a href="javascript:;" lay-tips="设置" lay-direction="2">-->
+<!--                <i class="layui-icon layui-icon-set"></i>-->
+<!--                <cite>设置</cite>-->
+<!--              </a>-->
+<!--              <dl class="layui-nav-child">-->
+
+<!--                <dd data-name="content">-->
+<!--                  <a href="javascript:;">系统设置</a>-->
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="set/system/website.html">网站设置</a></dd>-->
+<!--                    <dd><a lay-href="set/system/email.html">邮件服务</a></dd>-->
+<!--                  </dl>-->
+<!--                </dd>-->
+<!--                <dd data-name="content">-->
+<!--                  <a href="javascript:;">我的设置</a>-->
+<!--                  <dl class="layui-nav-child">-->
+<!--                    <dd><a lay-href="set/user/info.html">基本资料</a></dd>-->
+<!--                    <dd><a lay-href="set/user/password.html">修改密码</a></dd>-->
+<!--                  </dl>-->
+<!--                </dd>-->
+<!--              </dl>-->
+<!--            </li>-->
+          </ul>
+        </div>
+      </div>
+
+      <!-- 页面标签 -->
+      <div class="layadmin-pagetabs" id="LAY_app_tabs">
+        <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+        <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+        <div class="layui-icon layadmin-tabs-control layui-icon-down">
+          <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+            <li class="layui-nav-item" lay-unselect>
+              <a href="javascript:;"></a>
+              <dl class="layui-nav-child layui-anim-fadein">
+                <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+              </dl>
+            </li>
+          </ul>
+        </div>
+
+<!--        //这里是小图标,关不掉的那种-->
+        <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+          <ul class="layui-tab-title" id="LAY_app_tabsheader">
+            <li lay-id="Members_manage/adminCountS.html" lay-attr="Members_manage/adminCountS.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 主体内容 -->
+      <div class="layui-body" id="LAY_app_body">
+        <div class="layadmin-tabsbody-item layui-show">
+          <iframe src="Members_manage/adminCountS.html" frameborder="0" class="layadmin-iframe"></iframe>
+        </div>
+      </div>
+
+      <!-- 辅助元素，一般用于移动设备下遮罩 -->
+      <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+  </div>
+  <script src="../layuiadmin/lib/extend/jquery.cookie.min.js"></script>
+  <script src="../layuiadmin/layui/layui.js"></script>
+<!--  <script src="../layuiadmin/layui/layui.js"></script>-->
+  <script>
+
+    var usernameStr = GetQueryValue("username");
+
+    $("#usernameStr").text(usernameStr);
+
+
+    /**
+     * [通过参数名获取url中的参数值]
+     * 示例URL:http://htmlJsTest/getrequest.html?uid=admin&rid=1&fid=2&name=小明
+     * @param  {[string]} queryName [参数名]
+     * @return {[string]}           [参数值]
+     */
+    function GetQueryValue(queryName) {
+      var query = decodeURI(window.location.search.substring(1));
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == queryName) {
+          return pair[1];
+        }
+      }
+      return null;
+    }
+
+
+
+    layui.config({
+      base: '../layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use('index');
+
+    //{"theme":{"color":{"main":"#20222A","selected":"#009688","alias":"default","index":0}}}
+    // {"theme":{"color":{"main":"#3A3D49","logo":"#2F9688","selected":"#5FB878","alias":"green","index":5}}}
+    localStorage.removeItem("layuiAdmin")
+    var localJSON = JSON.stringify({"theme":{"color":{"logo":"#226A62","header":"#2F9688","alias":"green-header","index":9}}})
+    localStorage.setItem("layuiAdmin",localJSON);
+
+
+
+
+
+    // var mybck= $.cookie('tokenMyb');
+    // // alert(document.cookie);
+    //
+    // alert(mybck);
+    // console.log(mybck)
+    //
+    //
+    // if(mybck == "" || mybck == null){
+    //
+    //   window.top.location.href= "./"+js_again_login;
+    //
+    // }else{
+    //
+    //
+    //   layui.config({
+    //     base: '../layuiadmin/' //静态资源所在路径
+    //   }).extend({
+    //     index: 'lib/index' //主入口模块
+    //   }).use('index');
+    //
+    //
+    //
+    // }
+
+  </script>
+
+</body>
+</html>
+
+

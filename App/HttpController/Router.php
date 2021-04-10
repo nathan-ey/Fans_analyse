@@ -25,6 +25,8 @@ class Router extends AbstractRouter
         # add_admins    #添加管理员  获取成员
         $routeCollector->get('/superAdmin/add_admins', '/Super_admin/User/add_admins');
         $routeCollector->post('/superAdmin/add_admins', '/Super_admin/User/add_admins');
+        #project_analysis 项目的数据分析
+        $routeCollector->get('/superAdmin/project_analysis', '/Super_admin/Analysis/project_analysis');
 
 
         /**
@@ -59,7 +61,9 @@ class Router extends AbstractRouter
         # add_people
         $routeCollector->get('/realizationAdmin/add_people', '/Reception_admin/User/add_people');
         $routeCollector->post('/realizationAdmin/add_people', '/Reception_admin/User/add_people');
-
+        #submit_kele  提交给可乐
+        $routeCollector->get('/realizationAdmin/submit_kele', '/Reception_admin/Task/submit_kele');
+        $routeCollector->post('/realizationAdmin/submit_kele', '/Reception_admin/Task/submit_kele');
 
 
         /**
@@ -74,8 +78,36 @@ class Router extends AbstractRouter
 
         /**
          * @Realization_admin
+         * Project.php
+         * Analysis.php
          * 变现管理员
          */
+        #get_project  创建 获取 项目
+        $routeCollector->get('/receptionAdmin/get_project', '/Realization_admin/Project/get_project');
+        $routeCollector->post('/receptionAdmin/get_project', '/Realization_admin/Project/get_project');
+        #get_task
+        $routeCollector->get('/receptionAdmin/get_task', '/Realization_admin/Project/get_task');
+        $routeCollector->post('/receptionAdmin/get_task', '/Realization_admin/Project/get_task');
+        #get_task_orders
+        $routeCollector->get('/receptionAdmin/get_task_orders', '/Realization_admin/Project/get_task_orders');
+        $routeCollector->post('/receptionAdmin/get_task_orders', '/Realization_admin/Project/get_task_orders');
+
+
+        /**
+         * @baiBoAdmin
+         * User.php
+         * CostType.php
+         */
+
+        #add_people  添加修改组成员
+        $routeCollector->get('/baiBoAdmin/add_people', '/BaiBo/User/add_people');
+        $routeCollector->post('/baiBoAdmin/add_people', '/BaiBo/User/add_people');
+        #get_costType 获取 修改消费类型
+        $routeCollector->get('/baiBoAdmin/get_costType', '/BaiBo/CostType/get_costType');
+        $routeCollector->post('/baiBoAdmin/get_costType', '/BaiBo/CostType/get_costType');
+
+
+
 
 
         #登录

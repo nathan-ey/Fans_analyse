@@ -28,7 +28,8 @@ class IndexBase extends Controller
         'realizationAdmin' => 2,
         'receptionAdmin' => 3,
         'realizationUser' => 4,
-        'receptionUser' => 5
+        'receptionUser' => 5,
+        'baiBoAdmin'=>6
 
     ];
 
@@ -44,6 +45,9 @@ class IndexBase extends Controller
 
 
         #最高 權限 不需要檢驗權限
+
+
+
         if (isset($mid) && $mid == "superAdmin") {
         } else {
             if (!$this->PermissionToCheck($router_url, $this->jurisdiction_check)) {
@@ -130,7 +134,7 @@ class IndexBase extends Controller
     {
 
 
-        $url_while = array("/login", "/realizationAdmin/get_devices", "/realizationAdmin/get_devices_detail");
+        $url_while = array("/login", "/realizationAdmin/get_devices", "/realizationAdmin/get_devices_detail","/receptionAdmin/get_project",'/receptionAdmin/get_task_orders');
 
 
         if (in_array($router_url, $url_while)) {

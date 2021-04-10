@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>接待管理后台</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/login.css" media="all">
+
+
+  <!--  其他-->
+<!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+  <link rel="stylesheet" href="../layuiadmin/css/message.css" media="all" />
+
+  <script type="text/javascript" src="../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+
+  <script src="../layuiadmin/lib/extend/message.js"></script>
+  <script type="text/javascript" src="../layuiadmin/lib/extend/ipconfig.js"></script>
+  <script type="text/javascript" src="../layuiadmin/lib/extend/requestParamData.js"></script>
+
+</head>
+<body>
+
+  <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+
+    <div class="layadmin-user-login-main" style="margin-top: 130px;">
+      <div class="layadmin-user-login-box layadmin-user-login-header">
+        <h2>接待管理后台</h2>
+      </div>
+      <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+        <div class="layui-form-item">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+          <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+          <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../layuiadmin/layui/layui.js"></script>
+
+  <script>
+
+
+
+  layui.config({
+    base: '../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'user'], function(){
+    var $ = layui.$
+    ,setter = layui.setter
+    ,admin = layui.admin
+    ,form = layui.form
+    ,router = layui.router()
+    ,search = router.search;
+
+    form.render();
+
+    //提交
+    form.on('submit(LAY-user-login-submit)', function(obj){
+
+        // var expiresTime = "";
+        // var requestdata =  loginRequest(obj.field.username,obj.field.password,"login")
+
+
+          $.ajax({
+            url: "http://8.134.62.33/login?action=realizationAdmin&user="+obj.field.username+"&password="+obj.field.password,
+            // data: requestdata,
+            // type: "POST",
+            // dataType: "json",
+            success: function (resultJson) {
+
+              // console.log(resultJson);
+
+              if (200 === resultJson.code) {
+
+                // alert("登录成功!");
+
+                $.message({
+                  message:resultJson.msg ,
+                  type: 'success',
+                  showClose: true
+                });
+
+                // layer.msg("登录成功");
+
+                setTimeout(function (){
+
+                  // var millisecond = new Date().getTime();
+                  // expiresTime = new Date(millisecond + 60 * 1000 * 60);
+                  console.log("进来")
+                  var tokenCK  = resultJson.result.token;
+
+                  var UserID = resultJson.result.id
+
+                  var usernameStr  = resultJson.result.user;
+
+
+                  var remarkStr  = resultJson.result.remark;
+
+                  JsSetCookie('tokenMyb',tokenCK);
+
+                  JsSetCookie('UserID',UserID);
+
+
+                  // console.log(document.cookie);
+                  window.location.href = "./index.html?username="+remarkStr;
+                  // location.href = '../'; //后台主页
+                },1000)
+
+
+              }else{
+
+
+                $.message({
+                  message:resultJson.msg ,
+                  type: 'error',
+                  showClose: true
+                });
+                // layer.msg(resultJson.msg);
+                //alert(resultJson.code);
+
+              }
+
+
+            },
+
+
+          });
+
+
+      //设置CK方法
+      function JsSetCookie(name,value)//两个参数，一个是cookie名称，一个是值
+      {
+        var millisecond = new Date().getTime();
+        var expiresTime = new Date(millisecond +  60 * 1000 * 60);
+
+        document.cookie = name + "="+ escape (value) + ";expires=" + expiresTime.toGMTString();
+      }
+
+
+
+
+      return false;
+
+
+    });
+
+
+
+  });
+
+
+
+  </script>
+</body>
+</html>

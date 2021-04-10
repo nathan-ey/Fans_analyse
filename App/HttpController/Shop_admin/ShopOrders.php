@@ -100,7 +100,7 @@ class ShopOrders extends IndexBase
             }
 
 
-            if (!isset($data['channel_id']) || !isset($data['money']) || !isset($data['remark']) || !isset($data['type']) || !isset($data['device_id'])) {
+            if (!isset($data['channel_id']) || !isset($data['money']) || !isset($data['remark']) || !isset($data['type']) || !isset($data['device_id']) || !isset($data['date'])) {
                 $this->writeJson(-101, [], '添加/修改失败');
                 return false;
             }
@@ -130,7 +130,8 @@ class ShopOrders extends IndexBase
                 'device_id' => $data['device_id'],
                 'updated_at' => time(),
                 'created_at' => time(),
-                'num' => $data['num']
+                'num' => $data['num'],
+                'date'=>$data['date']
             ];
             $res = ShopOrdersModel::create()->data($add)->save();
             return $this->isOk($res, '插入');

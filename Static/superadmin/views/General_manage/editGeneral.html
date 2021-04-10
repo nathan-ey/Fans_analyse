@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>管理员账户</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+
+
+	<!--  其他-->
+	<!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+	<link rel="stylesheet" href="../../layuiadmin/css/message.css" media="all" />
+
+
+
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+	<script src="../../layuiadmin/lib/extend/jquery.cookie.min.js"></script>
+	<script src="../../layuiadmin/lib/extend/message.js"></script>
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/ipconfig.js"></script>
+	<script type="text/javascript" src="../../layuiadmin/lib/extend/requestParamData.js"></script>
+
+
+</head>
+<body class="childrenBody" >
+
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+	<div class="layui-form-item">
+		<label class="layui-form-label">账号</label>
+		<div class="layui-input-inline">
+			<input type="text" name="user" id="user" class="layui-input" placeholder="必填" autocomplete="off">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">密码</label>
+		<div class="layui-input-inline">
+			<input type="text" name="password" id="password" class="layui-input" placeholder="必填" autocomplete="off">
+		</div>
+	</div>
+<!--	<div class="layui-form-item">-->
+<!--		<label class="layui-form-label">所属等级</label>-->
+<!--		<div class="layui-input-inline">-->
+<!--			<select name="grade" id="grade">-->
+<!--				<option value="1">购粉管理员</option>-->
+<!--				<option value="2">接待管理员</option>-->
+<!--				<option value="3">变现管理员</option>-->
+<!--			</select>-->
+<!--		</div>-->
+<!--	</div>-->
+	<div class="layui-form-item">
+		<label class="layui-form-label">备注</label>
+		<div class="layui-input-inline">
+			<input type="text" name="remark" id="remark" class="layui-input" placeholder="必填" autocomplete="off">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">状态</label>
+		<div class="layui-input-inline">
+			<input type="checkbox" lay-verify="status" lay-filter="status" name="status" lay-skin="switch" id="status" lay-text="正常|异常">
+		</div>
+	</div>
+	<button class="layui-btn" lay-submit="" lay-filter="editCount" id="editCount" style="margin-left: 120px;margin-top: 10px;">确认修改</button>
+</div>
+
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+
+
+<script>
+
+
+	var mybck= $.cookie('tokenMyb');
+	if(mybck == "" || mybck == null){
+		// window.location.href="login.html";
+
+			window.top.location.href="../"+js_again_login;
+
+	}else {
+
+		console.log("当前状态:"+$("#status").val());
+
+		if($("#status").val() == 0){
+
+			$("#status").attr("value", '0');
+			$("#status").removeAttr('checked')
+
+		}else {
+
+			$("#status").attr("value", '1');
+			$('#status').attr('checked', 'checked'); //改变开关为 开
+		}
+
+		layui.config({
+			base: '../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index: 'lib/index' //主入口模块
+		}).use(['index', 'generalCountS', 'table'], function(){
+			var $ = layui.$
+					,form = layui.form
+					,table = layui.table;
+
+
+			// 初始化元素，如果有大量的元素操作可以也引入和初始化element模块
+			var layer = parent.layer === undefined ? layui.layer : top.layer;
+
+			// var $ = layui.$;
+
+			$("#editCount").click(function(){
+
+
+				if($("#user").val() == ""  || $("#user").val() == "null" || $("#user").val() == null){
+
+
+					$.message({
+						message:"账号不能为空!",
+						type: 'error',
+						showClose: true
+					});
+
+
+					return false
+				}
+
+				if($("#password").val() == ""  || $("#password").val() == "null" || $("#password").val() == null){
+
+
+					$.message({
+						message:"密码不能为空!",
+						type: 'error',
+						showClose: true
+					});
+
+
+					return false
+				}
+
+				if($("#remark").val() == ""  || $("#remark").val() == "null" || $("#remark").val() == null){
+
+
+					$.message({
+						message:"备注不能为空!",
+						type: 'error',
+						showClose: true
+					});
+
+
+					return false
+				}
+
+
+				//子页面获取父页面的数据
+				var parent_json = eval('('+parent.jsonDataStr+')');
+				var get_id = parent_json.id;
+				// console.log("id:"+get_id);
+
+
+				// var requestData = wxglBuildUpdataRequest($.cookie('tokenMyb'),"update",var_id,var_task_name,var_task_object);
+
+				var param={};
+				param['action']='update';
+				param['token']=$.cookie('tokenMyb');
+				param['user']=$("#user").val();
+				param['password']= $("#password").val();
+				param['status']= $("#status").val();
+				param['grade']= 4;
+				param['remark']= $("#remark").val();
+				param['id']= get_id;
+
+
+				// console.log("获取到的开关值:"+$("#status").val())
+
+				$.ajax({
+
+					url: "http://8.134.62.33/realizationAdmin/add_people",
+					data: param,
+					type: "POST",
+					dataType: "json",
+					success: function (resultJson) {
+
+						if (200 === resultJson.code) {
+
+							// console.log(resultJson);
+
+							$.message({
+								message:resultJson.msg ,
+								type: 'success',
+								showClose: true
+							});
+
+							setTimeout(function (){
+
+								layer.close("iframe");
+								parent.location.reload();
+
+							},1000)
+
+							// // layer.msg("登录成功");
+							//
+
+
+
+						}else{
+
+
+							$.message({
+								message:resultJson.msg ,
+								type: 'error',
+								showClose: true
+							});
+							// layer.msg(resultJson.msg);
+							//alert(resultJson.code);
+
+						}
+
+
+					},
+
+
+				});
+
+			})
+
+
+
+
+			//监听指定开关
+			form.on('switch(status)', function(dataStatus){
+
+
+				// console.log("第一次显示:"+dataStatus.elem.checked);
+				// console.log(dataStatus.elem.checked);
+
+				if(dataStatus.elem.checked){
+
+					$("#status").attr("value", '1');
+					// console.log("手动选中后1:"+dataStatus.value);
+				}else{
+
+					$("#status").attr("value", '0');
+					// console.log("手动选中后2:"+dataStatus.value);
+
+				}
+
+			});
+
+		})
+
+
+
+		// // 加载需要用到的模块，如果有使用到自定义模块也在此加载
+		// layui.use(['laydate','form','table'], function(){
+		// 	var orderLoadingIndex = layer.load(0); //添加laoding,0-2两种方式
+		// 	// 初始化元素，如果有大量的元素操作可以也引入和初始化element模块
+		// 	var table = layui.table;
+		// 	var form = layui.form;
+		// 	var laydate = layui.laydate;
+		// 	var $ = layui.$;
+		//
+		// 	// 定义时间选择器
+		// 	laydate.render({
+		// 		elem:'#test5',
+		// 		type:'datetime'
+		// 	});
+		// 	laydate.render({
+		// 		elem:'#test6',
+		// 		type:'datetime'
+		// 	});
+		//
+		// 	//订单表
+		// 	var tableIns = table.render({
+		// 		elem: '#merchantOrderT',
+		// 		// url : 'ysh.json',
+		// 		url : js_get_wx_tasks_detail,
+		// 		method: 'post',
+		// 		// where:{token: $.cookie('tokenMyb'),status:1,type:1},//这有问题,没有校验type
+		// 		where:{token: $.cookie('tokenMyb'),status:4},
+		// 		cellMinWidth : 95,
+		// 		page :  { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+		// 			layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+		// 			//,curr: 5 //设定初始在第 5 页
+		// 			,groups: 10 //只显示 1 个连续页码
+		// 			,first: "首页" //不显示首页
+		// 			,last: "尾页"//不显示尾页
+		//
+		// 		},
+		// 		height : "full-20",
+		// 		limit : 10,
+		// 		// limits : [15,30,50,100],
+		// 		id : "systemLog",
+		// 		cols : [[
+		// 			// {type: "checkbox", fixed:"left", width:50},
+		// 			// {field: 'id', title: '编号', width:60, align:"center"},
+		// 			{field: 'xid', title: '编号', width:60, align:"center",templet: '#titleTpl'},
+		// 			// {field: 'id', title: 'ID', minWidth:'60', width:'60', type:'space',align:"center"}, //, style :'display: none'
+		// 			{field: 'task_number', title: '任务编号', width:200, align:'center'},////默认显示URL地址
+		// 			// {field: 'user_id', title: '用户名', width:180, align:'center'},
+		// 			{field: 'wx_number', title: '用户微信号', width:180, align:'center'},
+		// 			// {field: 'task_wx_number', title: '任务微信号', width:180, align:'center'},
+		// 			{field: 'status', title: '任务状态',width:150, align:'center',templet:function(d){
+		// 					if(d.status === 1){//未接任务
+		// 						lfglshtgNum = lfglshtgNum+1;
+		// 						return '<button class="layui-btn layui-bg-normal layui-btn-xs">'+'审核通过'+'</button>'
+		// 					}else if(d.status === 2){//已接任务
+		// 						lfglddshNum = lfglddshNum+1;
+		// 						return '<button class="layui-btn layui-btn-normal layui-btn-xs">'+'待审核'+'</button>'
+		// 					}else if(d.status === 3){//已接任务
+		// 						lfglshwtgNum = lfglshwtgNum+1;
+		// 						return '<button class="layui-btn layui-bg-red layui-btn-xs">'+'未通过审核'+'</button>'
+		// 					}else if(d.status === 4){//已接任务
+		// 						lfglshwtjNum = lfglshwtjNum+1;
+		// 						return '<button class="layui-btn layui-btn-warm layui-btn-xs">'+'尚未提交'+'</button>'
+		// 					}else{
+		// 						return ''
+		// 					}
+		// 			}}
+		// 		]],
+		// 		done: function(res, curr, count){
+		// 			// $('.layui-table-cell').css({'height':'auto'});  ////暂时不用显示完整,有个小问题,把高度设置后全选按钮显示不对齐.
+		// 			layer.close(orderLoadingIndex);    //返回数据关闭loading
+		// 			hoverOpenImg();
+		// 		}
+		// 	});
+		//
+		//
+		// 	//鼠标移动到图片,预览当前图片
+		// 	function hoverOpenImg(){
+		// 		var img_show = null; // tips提示
+		// 		$('td img').hover(function(){
+		// 			var kd=$(this).width();
+		// 			kd1=kd*3;          //图片放大倍数
+		// 			kd2=kd*3+30;       //图片放大倍数
+		// 			var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:"+kd1+"px;' />";
+		// 			img_show = layer.tips(img, this,{
+		// 				tips:[2, 'rgba(41,41,41,.5)']
+		// 				,area: [kd2+'px']
+		// 			});
+		// 		},function(){
+		// 			layer.close(img_show);
+		// 		});
+		// 		$('td img').attr('style','max-width:70px;display:block!important');
+		// 	}
+		//
+		// 	//时间戳转日期时间型工具类
+		// 	function formatDateTime(inputTime) {
+		// 		var date = new Date(inputTime);
+		// 		var y = date.getFullYear();
+		// 		var m = date.getMonth() + 1;
+		// 		m = m < 10 ? ('0' + m) : m;
+		// 		var d = date.getDate();
+		// 		d = d < 10 ? ('0' + d) : d;
+		// 		var h = date.getHours();
+		// 		h = h < 10 ? ('0' + h) : h;
+		// 		var minute = date.getMinutes();
+		// 		var second = date.getSeconds();
+		// 		minute = minute < 10 ? ('0' + minute) : minute;
+		// 		second = second < 10 ? ('0' + second) : second;
+		// 		return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+		// 	}
+		//
+		//
+		//
+		// });
+		//
+		//
+		//
+		// //注意进度条依赖 element 模块，否则无法进行正常渲染和功能性操作
+		// layui.use('element', function(){
+		//
+		// 		var element = layui.element;
+		//
+		// 		var allNumS = lfglshtgNum+lfglshwtgNum+lfglshwtjNum+lfglddshNum;
+		//
+		// 		var progressNum = toPercent(lfglshtgNum/allNumS);
+		// 		console.log(progressNum);
+		//
+		// 		//直接用这条代码修改是不可以的,据说是官方BUG
+		// 	    // element.progress('demo', progressNum);
+		//
+		//
+		// 		//解决方法
+		// 		$('.layui-progress-bar').attr('lay-percent',progressNum);
+		// 		element.init();
+		// 		element.progress('demo', progressNum);
+		//
+		// });
+		//
+		//
+		// //小数点转百分比
+		// function toPercent(point){
+		// 	var str=Number(point*100).toFixed(1);
+		// 	str+="%";
+		// 	return str;
+		// }
+	}
+</script>
+<script type="text/html" id="titleTpl">
+	<a style="color:gray;"  class="layui-table-link">{{d.LAY_TABLE_INDEX+1}}</a>
+</script>
+</body>
+</html>

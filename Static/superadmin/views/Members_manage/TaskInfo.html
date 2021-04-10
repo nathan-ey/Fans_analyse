@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>管理员账户</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+
+
+  <!--  其他-->
+  <!--  <link rel="stylesheet" href="../layuiadmin/css/bootstrap.css" media="all" />-->
+  <link rel="stylesheet" href="../../layuiadmin/css/message.css" media="all" />
+
+
+
+  <script type="text/javascript" src="../../layuiadmin/lib/extend/jquery-2.0.3.js"></script>
+  <script src="../../layuiadmin/lib/extend/jquery.cookie.min.js"></script>
+  <script src="../../layuiadmin/lib/extend/message.js"></script>
+  <script type="text/javascript" src="../../layuiadmin/lib/extend/ipconfig.js"></script>
+  <script type="text/javascript" src="../../layuiadmin/lib/extend/requestParamData.js"></script>
+
+
+</head>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+
+            <div class="layui-inline">
+                <label class="layui-form-label">成员列表</label>
+                <div class="layui-input-block">
+                    <select name="memberUser" id="memberUser">
+                    </select>
+                </div>
+            </div>
+
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search" id="whereQuery">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>查询
+            </button>
+            <button class="layui-btn layuiadmin-btn-useradmin layui-bg-cyan" lay-submit lay-filter="LAY-user-front-reload" id="reloadtable">
+              <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>刷新数据
+            </button>
+<!--            <div id="reloadtable" class="layui-btn layui-bg-cyan"><i class="layui-icon">ဂ</i>刷新数据1</div>-->
+          </div>
+        </div>
+      </div>
+
+
+      <div class="layui-card-body">
+
+
+        <table id="LAY-fs-manage" lay-filter="LAY-fs-manage"></table>
+
+
+
+        <script type="text/html" id="orderListBar">
+
+          <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>修改</button>
+
+<!--          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>-->
+
+          {{# if(d.name == "超级管理员"){ }}
+          <button class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="del" disabled="disabled"><i class="layui-icon">&#xe640;</i>删除</button>
+          {{# } else{ }}
+          <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</button>
+          {{# } }}
+
+
+        </script>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="../../layuiadmin/layui/layui.js"></script>
+  <script>
+
+
+    var mybck= $.cookie('tokenMyb');
+    // alert(document.cookie);
+
+    // alert(mybck);
+    // console.log(mybck)
+
+    if(mybck == "" || mybck == null){
+
+      window.top.location.href= "../"+js_again_login;
+
+
+    }else {
+
+      layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+      }).extend({
+        index: 'lib/index' //主入口模块
+      }).use(['index', 'TaskInfo', 'table'], function(){
+        var $ = layui.$
+                ,form = layui.form
+                ,table = layui.table;
+
+       var jsonDataStr;
+
+
+          //获取设备ID添加到下拉框中
+          $.ajax({
+              url: "http://8.134.62.33/realizationAdmin/add_people?token="+mybck+"&status=1&limit=10&page=1",
+              dataType: 'json',
+              type: 'get',
+              success: function (dataArray) {
+
+                  if(dataArray.code != 0){
+
+                      // console.log(dataArray.msg)
+                      // layer.msg(dataArray.msg);
+                      return false;
+
+                  }
+                  $('#memberUser').append(new Option("选择组员", "777"));// 下拉菜单里添加元素
+                  // console.log(dataArray)
+                  $.each(dataArray.data, function (index, item) {
+
+                      $('#memberUser').append(new Option(item.remark, item.id));// 下拉菜单里添加元素
+                  });
+                  //重新渲染 固定写法
+                  layui.form.render("select");
+
+              }
+          })
+
+
+
+
+          //监听搜索
+        // form.on('submit(LAY-user-front-search)', function(data){
+        //   var field = data.field;
+        //
+        //   //执行重载
+        //   table.reload('LAY-fs-manage', {
+        //     where: field
+        //   });
+        // });
+
+        //监听搜索
+        // form.on('submit(LAY-user-front-reload)', function(data){
+        //
+        //   location.reload();
+        // });
+
+
+        //新建按钮点击事件
+        $("#addCount").click(function (){
+
+          // alert("1324")
+          var index = layer.open({
+            area: ['430px', '380px'],
+            // area : ['100%', '100%'],
+            fixed: false, //不固定
+            maxmin: true,
+            title : "新建账号",
+            skin: 'layui-layer-rim',//加上边框
+            type : 2,
+            content : "addCount.html",
+            success : function(layero, index){
+
+
+            }
+
+
+          })
+
+          // var param={};
+          // param['token']=$.cookie('tokenMyb');
+          // param['user']=$("#user").val();
+          // param['password']= $("#password").val();
+          // param['grade']= $("#grade option:selected").val();
+          //
+          // param['remark']= $("#remark").val();
+          //   // alert($("#user").val());
+          //
+          // $.ajax({
+          //   url:"http://8.134.62.33/superAdmin/add_admins",
+          //   type: "POST",
+          //   data: param,
+          //   success: function (resultData) {
+          //
+          //     console.log(resultData);
+          //
+          //     if(resultData.code == 200){
+          //
+          //
+          //       // $.message({
+          //       //
+          //       //   message:resultData.msg ,
+          //       //   type: 'success',
+          //       //   showClose: true
+          //       // });
+          //       //
+          //       // window.location.reload()
+          //
+          //       layer.msg(resultData.msg,{icon:1,time:500},function(){
+          //         //关闭后的操作
+          //         window.location.reload()
+          //
+          //         // window.parent.location.reload()
+          //
+          //
+          //       });
+          //       // window.location.reload()
+          //
+          //
+          //
+          //     }else{
+          //
+          //       $.message({
+          //         message:resultData.msg ,
+          //         type: 'error',
+          //         showClose: true
+          //       });
+          //
+          //
+          //     }
+          //
+          //
+          //
+          //   },
+          //
+          //
+          // });
+
+        })
+
+
+
+
+        //
+        // //事件
+        // var active = {
+        //   batchdel: function(){
+        //     var checkStatus = table.checkStatus('LAY-fs-manage')
+        //     ,checkData = checkStatus.data; //得到选中的数据
+        //
+        //     if(checkData.length === 0){
+        //       return layer.msg('请选择数据');
+        //     }
+        //
+        //     layer.prompt({
+        //       formType: 1
+        //       ,title: '敏感操作，请验证口令'
+        //     }, function(value, index){
+        //       layer.close(index);
+        //
+        //       layer.confirm('确定删除吗？', function(index) {
+        //
+        //         //执行 Ajax 后重载
+        //         /*
+        //         admin.req({
+        //           url: 'xxx'
+        //           //,……
+        //         });
+        //         */
+        //         table.reload('LAY-user-manage');
+        //         layer.msg('已删除');
+        //       });
+        //     });
+        //   }
+        //   ,addCount: function(){
+        //
+        //
+        //     // alert("aaaaaa");
+        //
+        //     // var field = data.field; //获取提交的字段
+        //
+        //     console.log(field)
+        //
+        //
+        //     $.ajax({
+        //       url:"http://8.134.62.33/superAdmin/add_admins",
+        //       type: "POST",
+        //       data: field,
+        //       success: function (resultData) {
+        //
+        //         console.log(resultData);
+        //
+        //
+        //         // if(resultData.code == -){
+        //         //
+        //         //   layer.msg(resultData.msg,{icon:1,time:500},function(){
+        //         //     //关闭后的操作
+        //         //     window.location.reload()
+        //         //
+        //         //     // window.parent.location.reload()
+        //         //
+        //         //
+        //         //
+        //         //   });
+        //         //   // window.location.reload()
+        //         //
+        //         //
+        //         //
+        //         // }else{
+        //         //
+        //         //   $.message({
+        //         //     message:resultData.msg ,
+        //         //     type: 'error',
+        //         //     showClose: true
+        //         //   });
+        //         //
+        //         // }
+        //
+        //
+        //
+        //       },
+        //
+        //
+        //     });
+        //
+        //
+        //     // layer.open({
+        //     //   type: 2
+        //     //   ,title: '添加用户'
+        //     //   ,content: 'userform.html'
+        //     //   ,maxmin: true
+        //     //   ,area: ['500px', '450px']
+        //     //   ,btn: ['确定', '取消']
+        //     //   ,yes: function(index, layero){
+        //     //     var iframeWindow = window['layui-layer-iframe'+ index]
+        //     //     ,submitID = 'LAY-user-front-submit'
+        //     //     ,submit = layero.find('iframe').contents().find('#'+ submitID);
+        //     //
+        //     //     //监听提交
+        //     //     iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+        //     //       var field = data.field; //获取提交的字段
+        //     //
+        //     //       //提交 Ajax 成功后，静态更新表格中的数据
+        //     //       //$.ajax({});
+        //     //       table.reload('LAY-user-front-submit'); //数据刷新
+        //     //       layer.close(index); //关闭弹层
+        //     //     });
+        //     //
+        //     //     submit.trigger('click');
+        //     //   }
+        //     // });
+        //   }
+        // };
+
+        // $('.layui-btn.layuiadmin-btn-useradmin').on('click', function(){
+        //   var type = $(this).data('type');
+        //   active[type] ? active[type].call(this) : '';
+        // });
+      });
+
+    }
+
+  </script>
+</body>
+</html>

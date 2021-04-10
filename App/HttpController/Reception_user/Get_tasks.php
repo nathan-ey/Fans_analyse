@@ -11,6 +11,7 @@ namespace App\HttpController\Reception_user;
 use App\HttpController\IndexBase;
 use App\Model\DevicesModel;
 use App\Model\DevicesTypeModel;
+use App\Model\ProjectModel;
 use App\Model\ReceptionOrdersModel;
 
 
@@ -44,9 +45,11 @@ class Get_tasks extends IndexBase
 
                     $res = DevicesTypeModel::create()->get(['id' => $value['devices_type_id']]);
                     $one = DevicesModel::create()->get(['id' => $value['devices_id']]);
+                    $there=ProjectModel::create()->get(['id'=>$value['project_id']]);
                     if ($res && $one) {
                         $list[$k]['devices_type_id'] = $res['name'];
                         $list[$k]['devices_id'] = $one['remark'];
+                        $list[$k]['project_id']=$there['name'];
                     }
 
                 }
@@ -68,7 +71,7 @@ class Get_tasks extends IndexBase
             #POST 添加數據
             $data = $this->request()->getParsedBody();
 
-            if (!isset($data['user_id']) || !isset($data['devices_id']) || !isset($data['doing_nums']) || !isset($data['remark']) || !isset($data['devices_type_id'])) {
+            if (!isset($data['user_id']) || !isset($data['devices_id']) || !isset($data['doing_nums']) || !isset($data['remark']) || !isset($data['devices_type_id']) || !isset($data['project_id'])) {
                 $this->writeJson(-101, [], '添加參數非法');
                 return false;
             }
@@ -80,13 +83,13 @@ class Get_tasks extends IndexBase
                 'devices_type_id' => $data['devices_type_id'],
                 'doing_nums' => $data['doing_nums'],
                 'remark' => $data['remark'],
+                'project_id' => $data['project_id'],
                 'created_at' => time(),
                 'updated_at' => time(),
+                'date'=>$data['date']
             ];
 
             $res = ReceptionOrdersModel::create()->data($add)->save();
-
-
             return $this->isOk($res, '添加');
 
         } catch (\Throwable $exception) {

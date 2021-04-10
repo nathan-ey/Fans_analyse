@@ -793,3 +793,37 @@ string(181) "Argument 2 passed to EasySwoole\Redis\Redis::hMGet() must be of the
 [2021-04-06 16:28:39 $18121.0]	WARNING	swManager_check_exit_status: worker#12[pid=18136] abnormal exit, status=0, signal=1
 [2021-04-06 16:28:39 $18121.0]	WARNING	swManager_check_exit_status: worker#9[pid=18133] abnormal exit, status=0, signal=1
 [2021-04-06 16:46:13 #18120.2]	INFO	Server is shutdown now
+[2021-04-07 13:23:08 #26412.2]	INFO	Server is shutdown now
+[2021-04-08 15:00:35 #1473.2]	INFO	Server is shutdown now
+[2021-04-10 11:10:03 *21470.7]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21469.6]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21467.4]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21466.3]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21465.2]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21464.1]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21463.0]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 #21459.2]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 *21468.5]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 $21460.0]	WARNING	swSignal_callback (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 11:10:03 $21460.0]	WARNING	swManager_check_exit_status: worker#8[pid=21471] abnormal exit, status=0, signal=1
+[2021-04-10 11:10:03 $21460.0]	WARNING	swManager_check_exit_status: worker#9[pid=21472] abnormal exit, status=0, signal=1
+[2021-04-10 11:10:03 $21460.0]	WARNING	swManager_check_exit_status: worker#10[pid=21473] abnormal exit, status=0, signal=1
+[2021-04-10 11:10:03 $21460.0]	WARNING	swManager_check_exit_status: worker#11[pid=21474] abnormal exit, status=0, signal=1
+[2021-04-10 11:10:03 $21460.0]	WARNING	swManager_check_exit_status: worker#12[pid=21475] abnormal exit, status=0, signal=1
+[2021-04-10 16:13:16 #21459.2]	INFO	Server is shutdown now
+[2021-04-10 16:18:18 *17598.5]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17599.6]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17597.4]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17596.3]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17594.1]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17595.2]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 #17589.2]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17600.7]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 *17593.0]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 $17590.0]	WARNING	swSignal_callback (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2021-04-10 16:18:18 $17590.0]	WARNING	swManager_check_exit_status: worker#8[pid=17601] abnormal exit, status=0, signal=1
+[2021-04-10 16:18:18 $17590.0]	WARNING	swManager_check_exit_status: worker#9[pid=17602] abnormal exit, status=0, signal=1
+[2021-04-10 16:18:18 $17590.0]	WARNING	swManager_check_exit_status: worker#11[pid=17604] abnormal exit, status=0, signal=1
+[2021-04-10 16:18:18 $17590.0]	WARNING	swManager_check_exit_status: worker#12[pid=17605] abnormal exit, status=0, signal=1
+[2021-04-10 16:18:18 $17590.0]	WARNING	swManager_check_exit_status: worker#10[pid=17603] abnormal exit, status=0, signal=1
+[2021-04-10 16:28:24 #17589.2]	INFO	Server is shutdown now
