@@ -4,7 +4,7 @@
  Source Server         : fans数据分析
  Source Server Type    : MySQL
  Source Server Version : 50650
- Source Host           : 8.134.62.33:3306
+ Source Host           : 192.168.1.1:3306
  Source Schema         : fans_analyse
 
  Target Server Type    : MySQL

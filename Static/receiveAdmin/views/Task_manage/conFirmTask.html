@@ -158,7 +158,7 @@
 			//
 			// //获取项目ID添加到下拉框中
 			// $.ajax({
-			// 	url: 'http://8.134.62.33/receptionAdmin/get_project?token='+mybck+'&status=1&page=1&limit=1000',
+			// 	url: 'http://192.168.1.1/receptionAdmin/get_project?token='+mybck+'&status=1&page=1&limit=1000',
 			// 	dataType: 'json',
 			// 	type: 'get',
 			// 	success: function (dataArray) {
@@ -183,7 +183,7 @@
 			//
 			// //获取设备ID添加到下拉框中
 			// $.ajax({
-			// 	url: 'http://8.134.62.33/realizationAdmin/get_devices?token='+mybck+'&status=1&page=1&limit=1000',
+			// 	url: 'http://192.168.1.1/realizationAdmin/get_devices?token='+mybck+'&status=1&page=1&limit=1000',
 			// 	dataType: 'json',
 			// 	type: 'get',
 			// 	success: function (dataArray) {
@@ -208,7 +208,7 @@
 			//
 			// 		//获取设备详情添加到下拉框中
 			// 		$.ajax({
-			// 			url: 'http://8.134.62.33/realizationAdmin/get_devices_detail?token='+mybck+'&status=1&page=1&limit=1000&type='+message,
+			// 			url: 'http://192.168.1.1/realizationAdmin/get_devices_detail?token='+mybck+'&status=1&page=1&limit=1000&type='+message,
 			// 			dataType: 'json',
 			// 			type: 'get',
 			// 			success: function (dataArray) {
@@ -345,7 +345,7 @@
 				param['project_id']=  GetQueryValue('proID');
 
 				$.ajax({
-					url:"http://8.134.62.33/realizationAdmin/submit_kele",
+					url:"http://192.168.1.1/realizationAdmin/submit_kele",
 					type: "POST",
 					data: param,
 					success: function (resultData) {
@@ -426,7 +426,7 @@
 				//         param['project_id']=  $("#projectID option:selected").val();
 				//
 				//         $.ajax({
-				//             url:"http://8.134.62.33/realizationAdmin/submit_kele",
+				//             url:"http://192.168.1.1/realizationAdmin/submit_kele",
 				//             type: "POST",
 				//             data: param,
 				//             success: function (resultData) {
@@ -491,7 +491,7 @@
 			//
 			// 	//获取设备详情添加到下拉框中
 			// 	$.ajax({
-			// 		url: 'http://8.134.62.33/realizationAdmin/get_devices_detail?token=' + mybck + '&status=1&page=1&limit=1000&type=' + message,
+			// 		url: 'http://192.168.1.1/realizationAdmin/get_devices_detail?token=' + mybck + '&status=1&page=1&limit=1000&type=' + message,
 			// 		dataType: 'json',
 			// 		type: 'get',
 			// 		success: function (dataArray) {
